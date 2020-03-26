@@ -14,4 +14,5 @@ USER ferney
 RUN echo "$(whoami)" > /tmp/usuario1.html
 USER root
 RUN cp /tmp/usuario1.html /var/www/html/usuario1.html
-CMD apachectl -DFOREGROUND
+COPY run.sh /run.sh
+CMD sh /run.sh
