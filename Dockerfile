@@ -1,18 +1,13 @@
-FROM centos:latest
-
-LABEL version=1.0
-LABEL descripcion="This is a an apache image"
-LABEL vendor=yo
-
-RUN yum -y install httpd -y 
-
-COPY startbootstrap-freelancer-master /var/www/html
-RUN echo "$(whoami)" > /var/www/html/usuario.html
+FROM nginx 
 RUN useradd ferney
-RUN chown ferney:ferney -R  /var/www/html
+COPY fruit /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+ENV archivo docker
+EXPOSE 80
+LABEL version=1
 USER ferney
-RUN echo "$(whoami)" > /tmp/usuario1.html
+RUN echo "Yo soy el usuario $(whoami) " > /tmp/yo.html
 USER root
-RUN cp /tmp/usuario1.html /var/www/html/usuario1.html
-COPY run.sh /run.sh
-CMD sh /run.sh
+RUN cp /tmp/yo.html /usr/share/nginx/html/docker.html
+VOLUME /var/logs/nginx
+CMD nginx -g 'daemon off;'
